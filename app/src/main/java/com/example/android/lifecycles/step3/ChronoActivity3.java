@@ -18,9 +18,12 @@ package com.example.android.lifecycles.step3;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.widget.TextView;
 
@@ -34,11 +37,10 @@ public class ChronoActivity3 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.chrono_activity_3);
-
         mLiveDataTimerViewModel = new ViewModelProvider(this).get(LiveDataTimerViewModel.class);
-
+        /* Use this method to get the current state of the Activity. */
+        Log.d("ChronoActivity", "onCreate :: " + this.getLifecycle().getCurrentState().toString());
         subscribe();
     }
 
@@ -52,7 +54,41 @@ public class ChronoActivity3 extends AppCompatActivity {
                 Log.d("ChronoActivity3", "Updating timer");
             }
         };
+        mLiveDataTimerViewModel.getElapsedTime().observe(this, elapsedTimeObserver);
+    }
 
-        //TODO: observe the ViewModel's elapsed time
+    @Override
+    protected void onStart() {
+        super.onStart();
+        /* Use this method to get the current state of the Activity. */
+        Log.d("ChronoActivity", "onStart :: " + this.getLifecycle().getCurrentState().toString());
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        /* Use this method to get the current state of the Activity. */
+        Log.d("ChronoActivity", "onRestart :: " + this.getLifecycle().getCurrentState().toString());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        /* Use this method to get the current state of the Activity. */
+        Log.d("ChronoActivity", "onRestart :: " + this.getLifecycle().getCurrentState().toString());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        /* Use this method to get the current state of the Activity. */
+        Log.d("ChronoActivity", "onRestart :: " + this.getLifecycle().getCurrentState().toString());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        /* Use this method to get the current state of the Activity. */
+        Log.d("ChronoActivity", "onRestart :: " + this.getLifecycle().getCurrentState().toString());
     }
 }

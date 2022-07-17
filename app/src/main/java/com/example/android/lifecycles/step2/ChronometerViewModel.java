@@ -21,7 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModel;
 
 /**
- * A ViewModel used for the {@link ChronoActivity2}.
+ * A ViewModel used for the {@link ChronoActivity2} Activity.
  */
 public class ChronometerViewModel extends ViewModel {
 
