@@ -18,7 +18,11 @@ package com.example.android.lifecycles.step5;
 
 
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +46,7 @@ public class Fragment_step5 extends Fragment {
         View root = inflater.inflate(R.layout.fragment_step5, container, false);
         mSeekBar = root.findViewById(R.id.seekBar);
 
-        // TODO: get ViewModel
+        mSeekBarViewModel = new ViewModelProvider(requireActivity()).get(SeekBarViewModel.class);
         subscribeSeekBar();
 
         return root;
@@ -55,17 +59,27 @@ public class Fragment_step5 extends Fragment {
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // TODO: Set the ViewModel's value when the change comes from the user.
+                if (fromUser) {
+                    mSeekBarViewModel.seekbarValue.setValue(progress);
+                }
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
 
-        // TODO: Update the SeekBar when the ViewModel is changed.
-        // mSeekBarViewModel.seekbarValue.observe(...
+        mSeekBarViewModel.seekbarValue.observe(requireActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (integer != null) {
+                    mSeekBar.setProgress(integer);
+                }
+            }
+        });
     }
 }
