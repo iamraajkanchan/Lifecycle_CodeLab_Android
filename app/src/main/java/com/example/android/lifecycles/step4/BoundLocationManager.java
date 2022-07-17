@@ -16,15 +16,24 @@
 
 package com.example.android.lifecycles.step4;
 
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.OnLifecycleEvent;
+
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.util.Log;
 
-
+/**
+ * LifecycleOwner is used to bind {@link LocationActivity} with BoundLocationManager.
+ * LocationListener is used to communicate with {@link LocationActivity}.
+ * Context is used to get an instance of LocationManager in BoundLocationManager class.
+ * */
 public class BoundLocationManager {
     public static void bindLocationListenerIn(LifecycleOwner lifecycleOwner,
                                               LocationListener listener, Context context) {
@@ -41,10 +50,20 @@ public class BoundLocationManager {
                                      LocationListener listener, Context context) {
             mContext = context;
             mListener = listener;
-            //TODO: Add lifecycle observer
+            lifecycleOwner.getLifecycle().addObserver(this);
         }
 
-        //TODO: Call this on resume
+        /**
+         * Typically addLocationListener should be called in the onResume callback method of the Activity.
+         *
+         * Annotation that can be used to mark methods on {@link LifecycleObserver} implementations that
+         * should be invoked to handle lifecycle events.
+         *
+         * @deprecated This annotation required the usage of code generation or reflection, which should
+         * be avoided. Use {@link DefaultLifecycleObserver} or
+         * {@link LifecycleEventObserver} instead.
+         */
+        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
         void addLocationListener() {
             // Note: Use the Fused Location Provider from Google Play Services instead.
             // https://developers.google.com/android/reference/com/google/android/gms/location/FusedLocationProviderApi
@@ -52,7 +71,7 @@ public class BoundLocationManager {
             mLocationManager =
                     (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mListener);
-            Log.d("BoundLocationMgr", "Listener added");
+            Log.d("Location_Example", "BoundLocationManager :: Listener added");
 
             // Force an update with the last location, if available.
             Location lastLocation = mLocationManager.getLastKnownLocation(
@@ -62,14 +81,23 @@ public class BoundLocationManager {
             }
         }
 
-        //TODO: Call this on pause
-        void removeLocationListener() {
+        /**
+         * Typically removeLocationListener should be called in the onPause callback method of the Activity.
+         * Annotation that can be used to mark methods on {@link LifecycleObserver} implementations that
+         * should be invoked to handle lifecycle events.
+         *
+         * @deprecated This annotation required the usage of code generation or reflection, which should
+         * be avoided. Use {@link DefaultLifecycleObserver} or
+         * {@link LifecycleEventObserver} instead.
+         */
+        @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+        public void removeLocationListener() {
             if (mLocationManager == null) {
                 return;
             }
             mLocationManager.removeUpdates(mListener);
             mLocationManager = null;
-            Log.d("BoundLocationMgr", "Listener removed");
+            Log.d("Location_Example", "BoundLocationManager :: Listener removed");
         }
     }
 }
