@@ -33,6 +33,10 @@ public class ChronometerViewModel extends ViewModel {
         return mStartTime;
     }
 
+    /**
+     * setStartTime method is used to set the timer value.
+     * @param startTime value for startTime
+     * */
     public void setStartTime(final long startTime) {
         this.mStartTime = startTime;
     }

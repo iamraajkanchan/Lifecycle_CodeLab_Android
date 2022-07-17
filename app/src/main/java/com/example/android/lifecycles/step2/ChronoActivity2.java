@@ -18,11 +18,17 @@ package com.example.android.lifecycles.step2;
 
 import android.os.Bundle;
 import android.os.SystemClock;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
 import android.widget.Chronometer;
 
 import com.example.android.codelabs.lifecycle.R;
+
+/**
+ * ChronoActivity2 - With the ViewModel {@link ChronometerViewModel}
+ */
 
 public class ChronoActivity2 extends AppCompatActivity {
 
